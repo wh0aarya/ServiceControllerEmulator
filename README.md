@@ -84,6 +84,14 @@ The emulator mimics a simplified **Service Control Manager (SCM)** by modularizi
 - C++11 or later
 
 
+---
+
+
+## To Run
+
+
+ To use the exe file use the format ./MidtermProject.exe <ServiceName> ... 
+
 
 ---
 
@@ -189,4 +197,4 @@ You can improve this by:
 
 ## 👤 Author
 
-*(Aarya)*
+*Aarya*
