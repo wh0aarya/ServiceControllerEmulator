@@ -1,4 +1,4 @@
-# 🧩 Service Controller Emulator
+# Service Controller Emulator
 
 A lightweight C++ service controller emulator that simulates lifecycle operations such as **create, start, stop, delete, query, and failure handling** for services. This project is useful for testing, prototyping, or learning how service control systems behave without relying on actual OS-level service managers.
 
@@ -6,54 +6,54 @@ A lightweight C++ service controller emulator that simulates lifecycle operation
 ---
 
 
-## 📦 Features
+## Features
 
-- ✅ Service lifecycle management:
+-  Service lifecycle management:
   - Create
   - Start
   - Stop
   - Delete
-- 🔍 Query service status and descriptions
-- ⚠️ Failure simulation and handling
-- 🧪 Test harness (`sctest.cpp`)
-- 🛠 Utility helpers for shared functionality
-- ⚙️ Configurable behavior
+-  Query service status and descriptions
+-  Failure simulation and handling
+-  Test harness (`sctest.cpp`)
+-  Utility helpers for shared functionality
+-  Configurable behavior
 
 
 ---
 
 
-## 🗂 Project Structure
-├── config.* # Configuration handling
+##  Project Structure
+├── config.* #Configuration handling
 
-├── create.* # Service creation logic
+├── create.* #Service creation logic
 
-├── delete.* # Service deletion logic
+├── delete.* #Service deletion logic
 
-├── start.* # Start service
+├── start.* #Start service
 
-├── stop.* # Stop service
+├── stop.* #Stop service
 
-├── query.* # Query service status
+├── query.* #Query service status
 
-├── qc.* # Query configuration
+├── qc.* #Query configuration
 
-├── qdescription.* # Query service description
+├── qdescription.* #Query service description
 
-├── failure.* # Failure handling logic
+├── failure.* #Failure handling logic
 
-├── qfailure.* # Query failure settings
+├── qfailure.* #Query failure settings
 
-├── utils.* # Shared utilities
+├── utils.* #Shared utilities
 
-├── sctest.cpp # Test / entry point
+├── sctest.cpp #Test / entry point
 
 
 
 ---
 
 
-## ⚙️ Architecture Overview
+## Architecture Overview
 
 The emulator mimics a simplified **Service Control Manager (SCM)** by modularizing each operation into separate components:
 
@@ -76,7 +76,7 @@ The emulator mimics a simplified **Service Control Manager (SCM)** by modularizi
 ---
 
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -96,7 +96,7 @@ The emulator mimics a simplified **Service Control Manager (SCM)** by modularizi
 ---
 
 
-## 🧠 Key Concepts
+## Key Concepts
 
 ### Service State Model
 
@@ -127,24 +127,24 @@ Each `.cpp/.h` pair isolates a single responsibility, making it easy to:
 ---
 
 
-## 🛠 Extending the Emulator
+## Extending the Emulator
 
 You can extend this project by:
 
-### ➕ Adding New Commands
+### Adding New Commands
 - Create new `.h/.cpp` files  
 - Follow existing module patterns  
 - Integrate into `sctest.cpp`  
 
-### 🧩 Enhancing State Management
+### Enhancing State Management
 - Add persistence (file or in-memory DB)  
 - Track service dependencies  
 
-### 🔐 Adding Permissions
+### Adding Permissions
 - Simulate admin/user roles  
 - Restrict operations  
 
-### 🌐 Adding CLI Interface
+### Adding CLI Interface
 
 Convert `sctest.cpp` into a real CLI tool:
 
@@ -157,7 +157,7 @@ Convert `sctest.cpp` into a real CLI tool:
 ---
 
 
-## 🧪 Testing
+## Testing
 
 Currently:
 
@@ -173,18 +173,18 @@ You can improve this by:
 ---
 
 
-## ⚠️ Limitations
+## Limitations
 
-- ❌ Not integrated with OS-level service managers  
-- ❌ No real process spawning  
-- ❌ Likely in-memory only (no persistence unless added)  
-- ❌ Limited error handling depending on implementation  
+-  Not integrated with OS-level service managers  
+-  No real process spawning  
+-  Likely in-memory only (no persistence unless added)  
+-  Limited error handling depending on implementation  
 
 
 ---
 
 
-## 📌 Use Cases
+## Use Cases
 
 - Learning how service controllers work  
 - Prototyping service orchestration logic  
@@ -195,6 +195,6 @@ You can improve this by:
 ---
 
 
-## 👤 Author
+## Author
 
 *Aarya*
