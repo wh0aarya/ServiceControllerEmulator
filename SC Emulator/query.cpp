@@ -12,6 +12,7 @@
 #include <memory>
 #include <algorithm>
 #include <cctype>
+#include <sstream>
 
 // Some SDKs already define these. If yours does not, define them here so the code compiles.
 #ifndef SERVICE_ADAPTER
@@ -21,6 +22,13 @@
 #ifndef SERVICE_RECOGNIZER_DRIVER
 #define SERVICE_RECOGNIZER_DRIVER 0x00000008
 #endif
+
+static std::string UpperHexNoPrefix(DWORD value)
+{
+    std::ostringstream oss;
+    oss << std::uppercase << std::hex << value;
+    return oss.str();
+}
 
 static std::string ServiceTypeToString(DWORD type)
 {
@@ -44,18 +52,11 @@ static std::string ServiceTypeToString(DWORD type)
         return "4  ADAPTER";
     }
 
-    // FIRST: check combined WIN32 type
-    if ((type & SERVICE_WIN32) == SERVICE_WIN32)
-    {
-        return "30  WIN32";
-    }
-
-    // THEN check specific subtypes (fallback)
     if ((type & SERVICE_WIN32_OWN_PROCESS) == SERVICE_WIN32_OWN_PROCESS)
     {
         if (type & SERVICE_INTERACTIVE_PROCESS)
         {
-            return std::to_string(type) + "  WIN32_OWN_PROCESS (INTERACTIVE)";
+            return UpperHexNoPrefix(type) + "  WIN32_OWN_PROCESS  (interactive)";
         }
 
         return "10  WIN32_OWN_PROCESS";
@@ -65,13 +66,18 @@ static std::string ServiceTypeToString(DWORD type)
     {
         if (type & SERVICE_INTERACTIVE_PROCESS)
         {
-            return std::to_string(type) + "  WIN32_SHARE_PROCESS (INTERACTIVE)";
+            return UpperHexNoPrefix(type) + "  WIN32_SHARE_PROCESS  (interactive)";
         }
 
         return "20  WIN32_SHARE_PROCESS";
     }
 
-    return std::to_string(type) + "  UNKNOWN";
+    if ((type & SERVICE_WIN32) == SERVICE_WIN32)
+    {
+        return "30  WIN32";
+    }
+
+    return UpperHexNoPrefix(type) + "  UNKNOWN";
 }
 
 static std::string ServiceStateToString(DWORD state)
@@ -134,7 +140,12 @@ static void PrintSingleServiceStatus(
     const SERVICE_STATUS_PROCESS& ssp)
 {
     std::cout << "SERVICE_NAME: " << serviceName << "\n";
-    std::cout << "DISPLAY_NAME: " << displayName << "\n";
+
+    if (!displayName.empty())
+    {
+        std::cout << "DISPLAY_NAME: " << displayName << "\n";
+    }
+
     std::cout << "        TYPE               : " << ServiceTypeToString(serviceType) << "\n";
     std::cout << "        STATE              : " << ServiceStateToString(ssp.dwCurrentState) << "\n";
 
@@ -183,7 +194,7 @@ static bool HandleQuerySingleService(const std::string& serviceName)
         return false;
     }
 
-    PrintSingleServiceStatus(serviceName, serviceName, ssp.dwServiceType, ssp);
+    PrintSingleServiceStatus(serviceName, "", ssp.dwServiceType, ssp);
 
     CloseServiceHandle(svc);
     CloseServiceHandle(scm);
@@ -636,19 +647,15 @@ static bool HandleQueryEnumerate(const QueryOptions& opts)
 
         if (err == ERROR_MORE_DATA)
         {
-            // Match sc.exe banner style.
             std::cout << "[SC] EnumServicesStatus: more data, need " << bytesNeeded
                 << " bytes start resume at index " << resumeHandle << "\n";
 
-            // If the user explicitly asked for a small buffer or resume index,
-            // stop here after printing this partial page, like sc.exe does.
             if (opts.userSpecifiedBufsize || opts.userSpecifiedRi)
             {
                 CloseServiceHandle(scm);
                 return true;
             }
 
-            // Otherwise grow the buffer and continue from the resume handle.
             bufferSize = bytesNeeded;
             continue;
         }
@@ -673,7 +680,7 @@ bool HandleQueryCommand(const std::vector<std::string>& args)
         return false;
     }
 
-    PrintParsedQueryArguments(opts);
+    //PrintParsedQueryArguments(opts);
     std::cout << "-------------------------\n";
 
     if (opts.hasServiceName)
