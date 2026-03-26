@@ -52,6 +52,12 @@ static std::string ServiceTypeToString(DWORD type)
         return "4  ADAPTER";
     }
 
+    // Exact combined WIN32 value first
+    if (type == SERVICE_WIN32)
+    {
+        return "30  WIN32";
+    }
+
     if ((type & SERVICE_WIN32_OWN_PROCESS) == SERVICE_WIN32_OWN_PROCESS)
     {
         if (type & SERVICE_INTERACTIVE_PROCESS)
@@ -70,11 +76,6 @@ static std::string ServiceTypeToString(DWORD type)
         }
 
         return "20  WIN32_SHARE_PROCESS";
-    }
-
-    if ((type & SERVICE_WIN32) == SERVICE_WIN32)
-    {
-        return "30  WIN32";
     }
 
     return UpperHexNoPrefix(type) + "  UNKNOWN";
